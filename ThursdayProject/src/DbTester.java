@@ -56,7 +56,7 @@ public class DbTester {
 	
 	public static void selectEmpsFromDept(String name) {
 		ArrayList<String> deptEm = db.selectEmployeesFromDept(name);
-		
+		System.out.println("Employees from " + name + " dept:");
 		for(String e : deptEm) {
 			System.out.println(e);
 		}

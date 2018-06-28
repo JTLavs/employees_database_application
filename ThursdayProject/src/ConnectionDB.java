@@ -12,8 +12,8 @@ import java.sql.Connection;
 public class ConnectionDB {
 	
 	private static Connection conn = null;
-	private static String user = "johny";
-	private static String password = "johnyPass";
+	private static String user = "james";
+	private static String password = "password";
 	private static String host = "localhost"; // set properties file
 	private static String database = "employees_database";
 	
@@ -21,7 +21,7 @@ public class ConnectionDB {
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://" + host+"/"+ database, user, password);
+			conn = DriverManager.getConnection("jdbc:mysql://" + host+"/"+ database + "?useSSL=false", user, password);
 			
 			System.out.println("Successfully connected to the database");
 	
@@ -128,8 +128,8 @@ public class ConnectionDB {
 		}
 		
 		try {
-			PreparedStatement s = conn.prepareStatement("SELECT employee_id, name FROM employee JOIN department USING (department_id) "
-					+ "WHERE department.name = ?");
+			PreparedStatement s = conn.prepareStatement("SELECT employee_id, employee.name FROM employee, department WHERE department.name = ?"
+					+ "AND department.department_id = employee.dept_id;");
 			s.setString(1, dept_name);
 			ResultSet deptRows = s.executeQuery();
 			
