@@ -36,14 +36,13 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee` (
   `name` VARCHAR(50) NOT NULL,
   `salary` DECIMAL(11,2) NOT NULL,
   `NIN` VARCHAR(11) NOT NULL,
-  `account_no` VARCHAR(8) NOT NULL,
+  `account_no` INT(11) NOT NULL,
   `sort_code` VARCHAR(8) NOT NULL,
-  PRIMARY KEY (`employee_id`))
+  PRIMARY KEY (`employee_id`),
+  UNIQUE INDEX `NIN_UNIQUE` (`NIN` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = latin1;
-
-CREATE UNIQUE INDEX `NIN_UNIQUE` ON `employees_database`.`employee` (`NIN` ASC);
 
 
 -- -----------------------------------------------------
@@ -57,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee_address` (
   `address_3` VARCHAR(100) NOT NULL,
   `postcode` VARCHAR(8) NOT NULL,
   PRIMARY KEY (`address_id`),
+  INDEX `employee_address_idx` (`employee_id` ASC),
   CONSTRAINT `employee_address`
     FOREIGN KEY (`employee_id`)
     REFERENCES `employees_database`.`employee` (`employee_id`)
@@ -65,8 +65,6 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee_address` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `employee_address_idx` ON `employees_database`.`employee_address` (`employee_id` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
