@@ -38,8 +38,7 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee` (
   `NIN` VARCHAR(11) NOT NULL,
   `account_no` INT(11) NOT NULL,
   `sort_code` VARCHAR(8) NOT NULL,
-  PRIMARY KEY (`employee_id`),
-  UNIQUE INDEX `NIN_UNIQUE` (`NIN` ASC))
+  PRIMARY KEY (`employee_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = latin1;
