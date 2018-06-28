@@ -5,10 +5,12 @@ public class Employee {
 	private String address;
 	private String NIN;
 	private int accNo;
-	private double salary;
+	private float salary;
 	private int empNo;
 	
-	public Employee(String name, String address, String nIN, int accNo, double salary, int empNo) {
+	public float TAX_RATE = 0.25f;
+	
+	public Employee(String name, String address, String nIN, int accNo, float salary, int empNo) {
 		super();
 		this.name = name;
 		this.address = address;
@@ -16,6 +18,10 @@ public class Employee {
 		this.accNo = accNo;
 		this.salary = salary;
 		this.empNo = empNo;
+	}
+	
+	public float calcNetPay() {
+		return salary - (salary * TAX_RATE);
 	}
 
 	public String getName() {
@@ -54,7 +60,7 @@ public class Employee {
 		return salary;
 	}
 
-	public void setSalary(double salary) {
+	public void setSalary(float salary) {
 		this.salary = salary;
 	}
 
