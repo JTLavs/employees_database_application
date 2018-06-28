@@ -34,6 +34,10 @@ public class DbTester {
 
 
 	public static void insertEmp(){
+			float comRate = 0;
+			float totalSales = 0;
+			boolean isSales = false;
+			
 			System.out.println("Insert name of employee: ");
 			String name = sc.nextLine();
 			System.out.println("Insert salary of employee: ");
@@ -54,14 +58,16 @@ public class DbTester {
 			System.out.println("Is this Employee a Sales Employee? Y or N: ");
 			String ans = sc.nextLine();
 			if(ans.equals("Y")) {
+				isSales = true;
 				System.out.println("Please enter commission rate: ");
-				float comRate = sc.nextFloat();
+				comRate = sc.nextFloat();
+				sc.nextLine();
 				System.out.println("Please enter total sales: ");
-				float totalSales = sc.nextFloat();
-			} else {
-			
-			db.insertEmployee(name, salary, NIN, sortCode, accNo, address, postcode);
+				totalSales = sc.nextFloat();
+				sc.nextLine();
 			}
+			
+			db.insertEmployee(name, salary, NIN, sortCode, accNo, address, postcode, isSales, comRate, totalSales);
 	}
 	
 	public static void insertDept() {

@@ -12,8 +12,8 @@ import java.sql.Connection;
 public class ConnectionDB {
 	
 	private static Connection conn = null;
-	private static String user = "johny";
-	private static String password = "johnyPass";
+	private static String user = "james";
+	private static String password = "password";
 	private static String host = "localhost"; // set properties file
 	private static String database = "employees_database";
 	
@@ -21,9 +21,8 @@ public class ConnectionDB {
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://" + host+"/"+ database + "?useSSL=false", user, password);
+			conn = DriverManager.getConnection("jdbc:mysql://" + host+"/"+ database, user, password);
 			
-			System.out.println("Successfully connected to the database");
 	
 		}
 		catch(ClassNotFoundException e1){
@@ -64,25 +63,25 @@ public class ConnectionDB {
 
 	}
 	
-	public void insertEmployee(String name, float salary, String nIN, String sortCode, int accountNumber, String address, String postcode) {
+	public void insertEmployee(String name, float salary, String nIN, String sortCode, int accountNumber, String address, String postcode
+			, boolean isSales, float commissionRate, float totalSales) {
+		int employeeNumber = -1;
 		if (conn == null) {
 			conn = getConnection();
 		}
 		try {
-			PreparedStatement s = conn.prepareStatement("INSERT INTO employee (`name`, `salary`, `NIN`, `account_no`, `sort_code`) "
-					+ "VALUES(?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
-			//System.out.println("NNumber: "+ nIN);
+			PreparedStatement s = conn.prepareStatement("INSERT INTO employee (`name`, `salary`, `NIN`, `account_no`, `sort_code`, `dept_id`) "
+					+ "VALUES(?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, name);
 			s.setDouble(2, salary);
 			s.setString(3, nIN);
 			s.setInt(4, accountNumber);
 			s.setString(5, sortCode);
+			s.setInt(6, 1);
+			s.executeUpdate();
 			
-			int employeeNumber = s.executeUpdate();
+			
 			ResultSet rs = s.getGeneratedKeys();
-			
-			System.out.println(employeeNumber);
-			
 			String[] sAddress = address.split(",");
 			
 			PreparedStatement addressStmt = conn.prepareStatement("INSERT INTO employee_address (`employee_id`, `address_1`, `address_2`, "
@@ -90,7 +89,8 @@ public class ConnectionDB {
 					+ "VALUES(?,?,?,?,?);");
 			
 			if(rs.next())
-				addressStmt.setInt(1, rs.getInt(1));
+				employeeNumber = rs.getInt(1);
+				addressStmt.setInt(1, employeeNumber);
 			
 			addressStmt.setString(2, sAddress[0]);
 			addressStmt.setString(3, sAddress[1]);
@@ -99,6 +99,11 @@ public class ConnectionDB {
 			addressStmt.executeUpdate();
 			
 			System.out.println("Employee inserted");
+			System.out.println(employeeNumber);
+			
+			if(isSales){
+				insertSalesEmployee(employeeNumber, commissionRate, totalSales);
+			}
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -147,12 +152,12 @@ public class ConnectionDB {
 			conn = getConnection();
 		}
 		try {
-			PreparedStatement s = conn.prepareStatement("INSERT INTO sales_employee (`employee_id`, `commission_rate`, `total_sales` ) "
+			PreparedStatement s = conn.prepareStatement("INSERT INTO sales_employee (`employee_id`, `commisson_rate`, `total_sales` ) "
 					+ "VALUES(?,?,?);");
 			s.setInt(1, employee_id);
 			s.setFloat(2, comRate);
 			s.setFloat(3, totalSales);
-			s.executeQuery();
+			s.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
