@@ -16,14 +16,14 @@ public class DbTester {
 		System.out.println("Insert salary of employee: ");
 		float salary = sc.nextFloat();
 		System.out.println("Insert National Insurance Number of employee: ");
-		sc.next();
+		sc.nextLine();
 		String NIN = sc.nextLine();
 		System.out.println("Insert sort code of employee: ");
 		String sortCode = sc.nextLine();
 		System.out.println("Insert Account Number of employee: ");
 		int accNo = sc.nextInt();
-		System.out.println("Insert address of employee (eg: Number, Street, Town, County): ");
-		sc.next();
+		System.out.println("Insert address of employee (eg: Number Street, Town, County): ");
+		sc.nextLine();
 		String address = sc.nextLine();
 		System.out.println("Insert postcode of employee: ");
 		String postcode = sc.nextLine();

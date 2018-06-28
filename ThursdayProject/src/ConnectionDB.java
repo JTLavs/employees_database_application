@@ -64,34 +64,34 @@ public class ConnectionDB {
 
 	}
 	
-	public void insertEmployee(String name, float salary, int nIN, int sortCode, int accountNumber, String address, String postcode) {
+	public void insertEmployee(String name, float salary, String nIN, String sortCode, int accountNumber, String address, String postcode) {
 		if (conn == null) {
 			conn = getConnection();
 		}
 		try {
-			PreparedStatement s = conn.prepareStatement("INSERT INTO employee ('name', 'salary', 'NIN', 'sort_code', 'account_no') "
-					+ "VALUES(?,?,?,?,?)");
+			PreparedStatement s = conn.prepareStatement("INSERT INTO employee (`name`, `salary`, `NIN`, `account_no`, `sort_code`) "
+					+ "VALUES(?,?,?,?,?);");
+			System.out.println("NNumber: "+ nIN);
 			s.setString(1, name);
 			s.setDouble(2, salary);
-			s.setInt(3, nIN);
-			s.setInt(4, sortCode);
-			s.setInt(5, accountNumber);
+			s.setString(3, nIN);
+			s.setInt(4, accountNumber);
+			s.setString(5, sortCode);
 			
 			int employeeNumber = s.executeUpdate();
 			String[] sAddress = address.split(",");
 			
-			PreparedStatement addressStmt = conn.prepareStatement("INSERT INTO emplopyee_address ('employee_id', 'address_1', 'address_2', "
-					+ "'address_3', 'address_4', 'postcode') "
-					+ "VALUES(?,?,?,?,?,?)");
+			PreparedStatement addressStmt = conn.prepareStatement("INSERT INTO employee_address (`employee_id`, `address_1`, `address_2`, "
+					+ "`address_3`, `postcode`) "
+					+ "VALUES(?,?,?,?,?);");
 			
 			
 			addressStmt.setInt(1, employeeNumber);
 			addressStmt.setString(2, sAddress[0]);
 			addressStmt.setString(3, sAddress[1]);
 			addressStmt.setString(4, sAddress[2]);
-			addressStmt.setString(5, sAddress[3]);
-			addressStmt.setString(6, postcode);
-			addressStmt.executeQuery();
+			addressStmt.setString(5, postcode);
+			addressStmt.executeUpdate();
 			
 			System.out.println("Employee inserted");
 			
