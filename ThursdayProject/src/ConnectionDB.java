@@ -128,7 +128,7 @@ public class ConnectionDB {
 		}
 		
 		try {
-			PreparedStatement s = conn.prepareStatement("SELECT employee_id, name FROM employee JOIN department USING (dept_id) "
+			PreparedStatement s = conn.prepareStatement("SELECT employee_id, name FROM employee JOIN department USING (department_id) "
 					+ "WHERE department.name = ?");
 			s.setString(1, dept_name);
 			ResultSet deptRows = s.executeQuery();
