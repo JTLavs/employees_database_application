@@ -12,8 +12,8 @@ import java.sql.Connection;
 public class ConnectionDB {
 	
 	private static Connection conn = null;
-	private static String user = "james";
-	private static String password = "password";
+	private static String user = "johny";
+	private static String password = "johnyPass";
 	private static String host = "localhost"; // set properties file
 	private static String database = "employees_database";
 	
@@ -71,7 +71,7 @@ public class ConnectionDB {
 		try {
 			PreparedStatement s = conn.prepareStatement("INSERT INTO employee (`name`, `salary`, `NIN`, `account_no`, `sort_code`) "
 					+ "VALUES(?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
-			System.out.println("NNumber: "+ nIN);
+			//System.out.println("NNumber: "+ nIN);
 			s.setString(1, name);
 			s.setDouble(2, salary);
 			s.setString(3, nIN);
@@ -103,13 +103,22 @@ public class ConnectionDB {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 	
 	
+	public void insertDepartment(String name) {
+		if (conn == null) {
+			conn = getConnection();
+		}
+		try {
+			PreparedStatement s = conn.prepareStatement("INSERT INTO department (`name`) "
+					+ "VALUES(?);");
+			s.setString(1, name);
 	
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
 
 
