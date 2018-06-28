@@ -7,6 +7,12 @@ public class DbTester {
 	
 	public static void main(String args[]) {
 		
+		ConnectionDB db = new ConnectionDB();
+		
+		System.out.println("Do you want to insert and employee or dept? Press D for dept and E for employee");
+		String ans = sc.nextLine();
+		if(ans.contains("E")) {
+		
 		System.out.println("Insert name of employee: ");
 		String name = sc.nextLine();
 		System.out.println("Insert salary of employee: ");
@@ -24,9 +30,20 @@ public class DbTester {
 		System.out.println("Insert postcode of employee: ");
 		String postcode = sc.nextLine();
 		
-		ConnectionDB db = new ConnectionDB();
+	
 		db.insertEmployee(name, salary, NIN, sortCode, accNo, address, postcode);
 		
+		} else if(ans.equals("D")) {
+			
+			System.out.println("Please enter Department name: ");
+			String dept_name = sc.nextLine();
+			
+			db.insertDepartment(dept_name);
+			
+			
+		} else {
+			System.out.println("Incorrect input. Exited");
+		}
 		
 	}
 
