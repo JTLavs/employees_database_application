@@ -38,9 +38,16 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee` (
   `NIN` VARCHAR(11) NOT NULL,
   `account_no` INT(11) NOT NULL,
   `sort_code` VARCHAR(8) NOT NULL,
-  PRIMARY KEY (`employee_id`))
+  `dept_id` INT(11) NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  INDEX `dept_id_idx` (`dept_id` ASC),
+  CONSTRAINT `employee_dept_id`
+    FOREIGN KEY (`dept_id`)
+    REFERENCES `employees_database`.`department` (`department_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -62,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee_address` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = latin1;
 
 
