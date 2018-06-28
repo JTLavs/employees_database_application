@@ -12,8 +12,8 @@ import java.sql.Connection;
 public class ConnectionDB {
 	
 	private static Connection conn = null;
-	private static String user = "james";
-	private static String password = "password";
+	private static String user = "johny";
+	private static String password = "johnyPass";
 	private static String host = "localhost"; // set properties file
 	private static String database = "employees_database";
 	
@@ -140,6 +140,23 @@ public class ConnectionDB {
 			e.printStackTrace();
 		}
 		return empDept;
+	}
+	
+	public void insertSalesEmployee(int employee_id, float comRate, float totalSales) {
+		if (conn == null) {
+			conn = getConnection();
+		}
+		try {
+			PreparedStatement s = conn.prepareStatement("INSERT INTO sales_employee (`employee_id`, `commission_rate`, `total_sales` ) "
+					+ "VALUES(?,?,?);");
+			s.setInt(1, employee_id);
+			s.setFloat(2, comRate);
+			s.setFloat(3, totalSales);
+			s.executeQuery();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
 
