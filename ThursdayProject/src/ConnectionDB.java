@@ -119,6 +119,28 @@ public class ConnectionDB {
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<String> selectEmployeesFromDept(String dept_name) {
+		ArrayList<String> empDept = new ArrayList<String>();
+		
+		if (conn == null) {
+			conn = getConnection();
+		}
+		
+		try {
+			PreparedStatement s = conn.prepareStatement("SELECT employee_id, name FROM employee JOIN department USING (dept_id) "
+					+ "WHERE department.name = ?");
+			s.setString(1, dept_name);
+			ResultSet deptRows = s.executeQuery();
+			
+			while(deptRows.next()) {
+				empDept.add(deptRows.getInt("employee_id") + " - " + deptRows.getString("name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return empDept;
+	}
 }
 
 
