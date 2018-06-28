@@ -11,13 +11,8 @@ public class DbTester {
 		String response = sc.nextLine();
 		ArrayList<Employee> employees = ConnectionDB.getEmployees();
 		
-		if(response.equals("y"))
-			for(Employee e : employees) {
-				System.out.println("Employee Name: "+e.getName()+"\nAddress: "+e.getAddress());
-			}
-		
-		else
-			System.out.println("Please connect to the DB");
+		System.out.println("Insert name of employee: ");
+		System.out.println("Insert ");
 	}
 
 }
