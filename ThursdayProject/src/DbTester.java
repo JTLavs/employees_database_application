@@ -12,7 +12,26 @@ public class DbTester {
 		ArrayList<Employee> employees = ConnectionDB.getEmployees();
 		
 		System.out.println("Insert name of employee: ");
-		System.out.println("Insert ");
+		String name = sc.nextLine();
+		System.out.println("Insert salary of employee: ");
+		float salary = sc.nextFloat();
+		System.out.println("Insert National Insurance Number of employee: ");
+		sc.next();
+		String NIN = sc.nextLine();
+		System.out.println("Insert sort code of employee: ");
+		String sortCode = sc.nextLine();
+		System.out.println("Insert Account Number of employee: ");
+		int accNo = sc.nextInt();
+		System.out.println("Insert address of employee (eg: Number, Street, Town, County): ");
+		sc.next();
+		String address = sc.nextLine();
+		System.out.println("Insert postcode of employee: ");
+		String postcode = sc.nextLine();
+		
+		ConnectionDB db = new ConnectionDB();
+		db.insertEmployee(name, salary, NIN, sortCode, accNo, address, postcode);
+		
+		
 	}
 
 }
