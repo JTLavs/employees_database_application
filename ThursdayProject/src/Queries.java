@@ -1,5 +1,3 @@
-
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,7 +12,7 @@ import java.sql.ResultSet;
 public class Queries {
 
 	private static Connection conn;
-	private static CallableStatement cstmt;
+	private static CallableStatement stmt;
 	private static ResultSet rs;
 
 	
@@ -23,7 +21,7 @@ public class Queries {
 		throws SQLException, FileNotFoundException, IOException{
 		
 		conn.setAutoCommit(false);
-		BufferedReader reader = new BufferedReader(new FileReader("test.sql"));
+		BufferedReader reader = new BufferedReader(new FileReader("test.txt"));
 		StringBuilder sb = new StringBuilder();
 		String ln = reader.readLine();
 		
@@ -42,12 +40,35 @@ public class Queries {
 	}
 	
 	// call  stored procedure
-	public static void callFirstQuery(String q) {
-		
+	public static void callFirstQuery() throws SQLException {
+		try {
 		conn = ConnectionDB.getConnection();
+		conn.setAutoCommit(false);
 		
+		// preparing to call stored procedure
+		stmt = conn.prepareCall("{call employeesPerDepartment()}");
+		stmt.execute();
+		rs = stmt.getResultSet();
+		
+		while(rs.next()) {
+			
+			String id = rs.getString("employee_id");
+			String name = rs.getString("name");
+			String salary = rs.getString("salary");
+			String nInsurance = rs.getString("NIN");
+			String account = rs.getString("account_no");
+			String sortCode = rs.getString("sort_code");
+			
+			System.out.println("%s, %s, %s, %s, %s, %s");
+		}
+		
+		conn.commit();
+		stmt.close();
+		}
+		catch(SQLException e) {
+			System.err.println("error occured");
+		}
 	}
-	
 	
 	
 	
