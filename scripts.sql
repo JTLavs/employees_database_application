@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`department` (
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`department_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -38,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee` (
   `NIN` VARCHAR(11) NOT NULL,
   `account_no` INT(11) NOT NULL,
   `sort_code` VARCHAR(8) NOT NULL,
-  `dept_id` INT(11) NOT NULL,
+  `dept_id` INT(11) NULL DEFAULT '0',
   PRIMARY KEY (`employee_id`),
   INDEX `dept_id_idx` (`dept_id` ASC),
   CONSTRAINT `employee_dept_id`
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
+AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -69,7 +70,26 @@ CREATE TABLE IF NOT EXISTS `employees_database`.`employee_address` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 9
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `employees_database`.`sales_employee`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employees_database`.`sales_employee` (
+  `sales_employee_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `employee_id` INT(11) NOT NULL,
+  `commisson_rate` DECIMAL(11,2) NOT NULL,
+  `total_sales` INT(11) NOT NULL,
+  PRIMARY KEY (`sales_employee_id`),
+  INDEX `emp_sales_id_idx` (`employee_id` ASC),
+  CONSTRAINT `emp_sales_id`
+    FOREIGN KEY (`employee_id`)
+    REFERENCES `employees_database`.`employee` (`employee_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
 
