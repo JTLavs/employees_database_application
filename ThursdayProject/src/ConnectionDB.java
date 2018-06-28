@@ -70,7 +70,7 @@ public class ConnectionDB {
 		}
 		try {
 			PreparedStatement s = conn.prepareStatement("INSERT INTO employee (`name`, `salary`, `NIN`, `account_no`, `sort_code`) "
-					+ "VALUES(?,?,?,?,?);");
+					+ "VALUES(?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 			System.out.println("NNumber: "+ nIN);
 			s.setString(1, name);
 			s.setDouble(2, salary);
@@ -79,14 +79,19 @@ public class ConnectionDB {
 			s.setString(5, sortCode);
 			
 			int employeeNumber = s.executeUpdate();
+			ResultSet rs = s.getGeneratedKeys();
+			
+			System.out.println(employeeNumber);
+			
 			String[] sAddress = address.split(",");
 			
 			PreparedStatement addressStmt = conn.prepareStatement("INSERT INTO employee_address (`employee_id`, `address_1`, `address_2`, "
 					+ "`address_3`, `postcode`) "
 					+ "VALUES(?,?,?,?,?);");
 			
+			if(rs.next())
+				addressStmt.setInt(1, rs.getInt(1));
 			
-			addressStmt.setInt(1, employeeNumber);
 			addressStmt.setString(2, sAddress[0]);
 			addressStmt.setString(3, sAddress[1]);
 			addressStmt.setString(4, sAddress[2]);
